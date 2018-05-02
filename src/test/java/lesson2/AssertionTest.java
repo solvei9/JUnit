@@ -1,5 +1,6 @@
 package lesson2;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static org.hamcrest.core.IsNot.not;
 
 public class AssertionTest {
     private Path tmpFolder;
@@ -29,16 +32,20 @@ public class AssertionTest {
     @Test
     public void sameFileCreateTest() throws IOException {
         file = new File(tmpFolder + "\\file.txt");
-        Assert.assertTrue(file.createNewFile());
-        Assert.assertFalse(file.createNewFile());
+        SoftAssertions s = new SoftAssertions();
+        s.assertThat(file.createNewFile());
+        s.assertThat(not(file.createNewFile()));
+        s.assertAll();
     }
 
     @Test
     public void anotherFileCreateTest() throws IOException {
         file = new File(tmpFolder + "\\file.txt");
         file1 = new File(tmpFolder + "\\file1.txt");
-        Assert.assertTrue(file.createNewFile());
-        Assert.assertTrue(file1.createNewFile());
+        SoftAssertions s = new SoftAssertions();
+        s.assertThat(file.createNewFile());
+        s.assertThat(file1.createNewFile());
+        s.assertAll();
     }
 
     @Test
