@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Task0702Test {
+public class AssertionTest {
     private Path tmpFolder;
     private File file;
     private File file1;

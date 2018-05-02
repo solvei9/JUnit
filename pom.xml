@@ -11,6 +11,18 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -29,6 +41,16 @@
 		</exclusion>
 	  </exclusions>
     </dependency>
+      <dependency>
+          <groupId>com.tngtech.java</groupId>
+          <artifactId>junit-dataprovider</artifactId>
+          <version>1.6.0</version>
+      </dependency>
+      <dependency>
+          <groupId>pl.pragmatists</groupId>
+          <artifactId>JUnitParams</artifactId>
+          <version>1.0.2</version>
+      </dependency>
   </dependencies>
   <build>
 	  <plugins>
