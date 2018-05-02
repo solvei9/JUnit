@@ -1,9 +1,9 @@
 package lesson2;
 
-import org.junit.Before;
-import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.ExternalResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,14 +11,32 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class GroupingTest {
+    @Rule
+    public ExternalResource tmpDir = new ExternalResource() {
+        @Override
+        protected void before() throws Throwable {
+            tmpFolder = Files.createTempDirectory("TestNG");
+        }
+
+        @Override
+        protected void after() {
+            if (file!=null) {
+                file.delete();
+            }
+            if (file1!=null) {
+                file1.delete();
+            }
+            try {
+                Files.delete(tmpFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     private Path tmpFolder;
     private File file;
     private File file1;
-
-    @Before
-    public void setUp() throws IOException {
-        tmpFolder = Files.createTempDirectory("TestNG");
-    }
 
     @Test
     @Category(TestCategories.PositiveTests.class)
@@ -56,16 +74,5 @@ public class GroupingTest {
     public void invalidNameFileCreateTest() throws IOException {
         file = new File(tmpFolder + "\\*");
         file.createNewFile();
-    }
-
-    @After
-    public void tearDown() throws IOException {
-        if (file!=null) {
-            file.delete();
-        }
-        if (file1!=null) {
-            file1.delete();
-        }
-        Files.delete(tmpFolder);
     }
 }

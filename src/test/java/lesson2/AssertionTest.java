@@ -1,10 +1,8 @@
 package lesson2;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.ExternalResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,10 +16,28 @@ public class AssertionTest {
     private File file;
     private File file1;
 
-    @Before
-    public void setUp() throws IOException {
-        tmpFolder = Files.createTempDirectory("TestNG");
-    }
+    @Rule
+    public ExternalResource tmpDir = new ExternalResource() {
+        @Override
+        protected void before() throws Throwable {
+            tmpFolder = Files.createTempDirectory("TestNG");
+        }
+
+        @Override
+        protected void after() {
+            if (file!=null) {
+                file.delete();
+            }
+            if (file1!=null) {
+                file1.delete();
+            }
+            try {
+                Files.delete(tmpFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @Test
     public void emptyFileCreateTest() throws IOException {
@@ -70,16 +86,5 @@ public class AssertionTest {
         catch (IOException e) {
             Assert.assertEquals("Синтаксическая ошибка в имени файла, имени папки или метке тома", e.getMessage());
         }
-    }
-
-    @After
-    public void tearDown() throws IOException {
-        if (file!=null) {
-            boolean result = file.delete();
-        }
-        if (file1!=null) {
-            boolean result = file1.delete();
-        }
-        Files.delete(tmpFolder);
     }
 }

@@ -3,10 +3,8 @@ package lesson2;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -17,6 +15,28 @@ import java.util.Random;
 
 @RunWith(JUnitParamsRunner.class)
 public class JUnitParamsTest {
+    @Rule
+    public ExternalResource tmpDir = new ExternalResource() {
+        @Override
+        protected void before() throws Throwable {
+            tmpFolder = Files.createTempDirectory("TestNG");
+        }
+
+        @Override
+        protected void after() {
+            if (file!=null) {
+                file.delete();
+            }
+            if (file1!=null) {
+                file1.delete();
+            }
+            try {
+                Files.delete(tmpFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @DataProvider
     public static Object[][] files() {
@@ -32,11 +52,6 @@ public class JUnitParamsTest {
     private Path tmpFolder;
     private File file;
     private File file1;
-
-    @Before
-    public void setUp() throws IOException {
-        tmpFolder = Files.createTempDirectory("TestNG");
-    }
 
     @Test
     @Parameters(method = "files")
@@ -64,16 +79,5 @@ public class JUnitParamsTest {
 
     private static String generateRandomFileName() {
         return "input" + new Random().nextInt();
-    }
-
-    @After
-    public void tearDown() throws IOException {
-        if (!(file==null)) {
-            file.delete();
-        }
-        if (!(file1==null)) {
-            file1.delete();
-        }
-        Files.delete(tmpFolder);
     }
 }

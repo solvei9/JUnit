@@ -3,10 +3,8 @@ package lesson2;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 
 import java.io.BufferedReader;
@@ -20,6 +18,28 @@ import java.util.List;
 
 @RunWith(DataProviderRunner.class)
 public class FileParamsTest {
+    @Rule
+    public ExternalResource tmpDir = new ExternalResource() {
+        @Override
+        protected void before() throws Throwable {
+            tmpFolder = Files.createTempDirectory("TestNG");
+        }
+
+        @Override
+        protected void after() {
+            if (file!=null) {
+                file.delete();
+            }
+            if (file1!=null) {
+                file1.delete();
+            }
+            try {
+                Files.delete(tmpFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @DataProvider
     public static Object[][] loadFilesFromFile() throws IOException {
@@ -38,11 +58,6 @@ public class FileParamsTest {
     private Path tmpFolder;
     private File file;
     private File file1;
-
-    @Before
-    public void setUp() throws IOException {
-        tmpFolder = Files.createTempDirectory("TestNG");
-    }
 
     @Test
     @UseDataProvider("loadFilesFromFile")
@@ -66,16 +81,5 @@ public class FileParamsTest {
         file1 = new File(tmpFolder + "\\" + fileName + "1.txt");
         Assert.assertTrue(file.createNewFile());
         Assert.assertTrue(file1.createNewFile());
-    }
-
-    @After
-    public void tearDown() throws IOException {
-        if (!(file==null)) {
-            file.delete();
-        }
-        if (!(file1==null)) {
-            file1.delete();
-        }
-        Files.delete(tmpFolder);
     }
 }
