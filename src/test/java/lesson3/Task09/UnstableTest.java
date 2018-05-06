@@ -1,4 +1,4 @@
-package lesson3;
+package lesson3.Task09;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;

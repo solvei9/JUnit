@@ -1,4 +1,4 @@
-package lesson3;
+package lesson3.Task09;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

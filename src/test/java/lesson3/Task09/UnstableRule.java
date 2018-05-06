@@ -1,4 +1,4 @@
-package lesson3;
+package lesson3.Task09;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -12,7 +12,7 @@ public class UnstableRule extends TestWatcher{
 
     protected void starting(Description description) {
         if (description.getAnnotation(Unstable.class) != null) {
-            repeatRunRule.apply();
+            //repeatRunRule.apply();
         }
     }
 }
