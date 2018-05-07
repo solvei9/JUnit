@@ -2,6 +2,7 @@ package lesson3.Task10;
 
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,7 +48,10 @@ public class FileParamsTest {
     @DataSource(source = "/files.data", type = DataSource.Type.RESOURCE)
     public void emptyFileCreateTest(String fileName) throws IOException {
         file = new File(tmpFolder + "\\" + fileName + ".txt");
-        Assert.assertTrue(file.createNewFile());
+        SoftAssertions s = new SoftAssertions();
+        s.assertThat(file.createNewFile());
+        s.assertThat(file.exists());
+        s.assertAll();
     }
 
     @Test
@@ -55,8 +59,11 @@ public class FileParamsTest {
     @DataSource(source = "/files.data", type = DataSource.Type.RESOURCE)
     public void sameFileCreateTest(String fileName) throws IOException {
         file = new File(tmpFolder + "\\" + fileName + ".txt");
-        Assert.assertTrue(file.createNewFile());
-        Assert.assertFalse(file.createNewFile());
+        SoftAssertions s = new SoftAssertions();
+        s.assertThat(file.createNewFile());
+        s.assertThat(!(file.createNewFile()));
+        s.assertThat(file.exists());
+        s.assertAll();
     }
 
     @Test
@@ -65,7 +72,11 @@ public class FileParamsTest {
     public void anotherFileCreateTest(String fileName) throws IOException {
         file = new File(tmpFolder + "\\" + fileName + ".txt");
         file1 = new File(tmpFolder + "\\" + fileName + "1.txt");
-        Assert.assertTrue(file.createNewFile());
-        Assert.assertTrue(file1.createNewFile());
+        SoftAssertions s = new SoftAssertions();
+        s.assertThat(file.createNewFile());
+        s.assertThat(file.exists());
+        s.assertThat(file1.createNewFile());
+        s.assertThat(file1.exists());
+        s.assertAll();
     }
 }
