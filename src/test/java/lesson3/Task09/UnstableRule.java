@@ -12,7 +12,7 @@ public class UnstableRule extends TestWatcher{
 
     protected void starting(Description description) {
         if (description.getAnnotation(Unstable.class) != null) {
-            //repeatRunRule.apply();
+            repeatRunRule.setAttemptCount(description.getAnnotation(Unstable.class).count());
         }
     }
 }
