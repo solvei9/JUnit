@@ -31,9 +31,6 @@ public class UnstableTest {
             if (file!=null) {
                 file.delete();
             }
-            if (file1!=null) {
-                file1.delete();
-            }
             try {
                 Files.delete(tmpFolder);
             } catch (IOException e) {
@@ -45,7 +42,6 @@ public class UnstableTest {
     private static boolean attempt;
     private Path tmpFolder;
     private File file;
-    private File file1;
 
     @Test
     @Unstable(count = 2)

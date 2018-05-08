@@ -6,7 +6,7 @@ import org.junit.runner.Description;
 public class UnstableRule extends TestWatcher{
     private RepeatRunRule repeatRunRule;
 
-    public UnstableRule(RepeatRunRule repeatRunRule) {
+    UnstableRule(RepeatRunRule repeatRunRule) {
         this.repeatRunRule = repeatRunRule;
     }
 
