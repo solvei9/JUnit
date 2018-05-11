@@ -57,4 +57,13 @@ public class UnstableTest {
             Assert.fail("Failed on " + (attempt) + " attempt");
         }
     }
+
+    @Test
+    public void emptyFileCreateTest2() throws IOException {
+        file = new File(tmpFolder + "\\file.txt");
+        SoftAssertions s = new SoftAssertions();
+        s.assertThat(file.createNewFile());
+        s.assertThat(file.exists());
+        s.assertAll();
+    }
 }

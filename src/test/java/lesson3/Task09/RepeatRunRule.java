@@ -6,7 +6,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 public class RepeatRunRule implements TestRule{
-    private int attemptCount;
+    private int attemptCount=1;
 
     void setAttemptCount(int attemptCount) {
         this.attemptCount = attemptCount;
